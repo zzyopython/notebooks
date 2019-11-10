@@ -1,0 +1,20 @@
+# 快速排序二
+
+def quick_sort2(lst):
+    return _quick_sort2(lst)
+
+def _quick_sort2(lst):
+    
+    if len(lst) < 2:
+        return lst
+    
+    tmp = lst[0]
+
+    left = [v for v in ssq[1:] if v <= tmp]
+
+    right = [v for v in ssq[1:] if v >= tmp]
+
+    left = _quick_sort2(left)
+    right = _quick_sort2(right)
+
+    return left + [tmp] + right
