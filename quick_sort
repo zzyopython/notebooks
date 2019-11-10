@@ -1,3 +1,5 @@
+import random
+
 # 快速排序
 
 """
@@ -22,19 +24,29 @@
     
 """
 
-def quick_sort(lst,left,right):
+def _quick_sort(lst,left,right):
     
 
     if left < right:   # 待排序的区域至少有两个元素，（因为一个元素，就是有序的）
         
-        mid = partition(lst, left, right)   # 找到p归位的位置，这样可以将整个列表分为两个部分
+        # mid = partition(lst, left, right)   # 找到p归位的位置，这样可以将整个列表分为两个部分
+        
+        # 解决原始序列是有序的倒序问题
+        mid = random_partition(lst, left, right)
         
         # 递归调用自身，继续两个列表一分为二
-        quick_sort(lst,left,mid-1)
-        quick_sort(lst,mid+1, right)
+        _quick_sort(lst,left,mid-1)
+        _quick_sort(lst,mid+1, right)
         
     return lst
-        
+ 
+    
+def quick_sort(lst):
+    
+    _quick_sort(lst,0,len(lst)-1)
+    
+    return lst
+    
 
 def partition(lst, left, right):
     
@@ -64,3 +76,16 @@ def partition(lst, left, right):
     lst[left] = tmp  
     
     return left
+
+
+# 这里面还有一种最坏的情况，原始的lst，是一个有序的递减的序列，这样快速排序就会出问题，
+# 解决这个问题，采用随机化
+
+
+def random_partition(lst, left, right):
+    
+    i = random.randint(left, right)
+    
+    lst[left],lst[i] = lst[i], lst[left]
+    
+    return partition(lst, left, right)
