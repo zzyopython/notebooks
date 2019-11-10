@@ -1,0 +1,66 @@
+# 快速排序
+
+"""
+快速排序的思路：
+
+    1, 取一个元素p（第一个元素），使元素p归位。
+    
+    2, 列表被p分成两部分，左边都比p小，右边都比p大。
+    
+    3, 递归完成排序
+    
+
+图示：(5归位)
+    
+    排序前： 5 7 4 6 3 1 2 9 8 
+    
+    
+    P归位：  2 1 4 3 5 6 7 9 8 
+    
+    
+    目标：   1 2 3 4 5 6 7 8 9
+    
+"""
+
+def quick_sort(lst,left,right):
+    
+
+    if left < right:   # 待排序的区域至少有两个元素，（因为一个元素，就是有序的）
+        
+        mid = partition(lst, left, right)   # 找到p归位的位置，这样可以将整个列表分为两个部分
+        
+        # 递归调用自身，继续两个列表一分为二
+        quick_sort(lst,left,mid-1)
+        quick_sort(lst,mid+1, right)
+        
+    return lst
+        
+
+def partition(lst, left, right):
+    
+    tmp = lst[left]   # 将第一个元素拿出去，然后从right开始寻找，与tmp比较，如果比tmp大，不动，如果比
+                      # tmp小，则将其移动到lst[left]位置，再从lst[left+1]位置开始找，如果比tmp小，
+                      # 不动，如果比tmp大，将其移动到lst[right]位置，，再从lst[right-1]位置开始找，
+                      # 如此循环下去，直到left = right结束
+
+
+    while left < right:
+        
+        # 当left 和 right相遇的时候，循环应该终止，但是下面的循环，没有办法出发 left < right
+        # 所以 下面 while 循环的条件，需要加上 left < right
+        
+        while left < right and lst[right] >= tmp:
+            
+            right -= 1
+            
+        lst[left] = lst[right]
+        
+        while left < right and lst[left] <= tmp:
+            
+            left += 1
+            
+        lst[right] = lst[left]
+    
+    lst[left] = tmp  
+    
+    return left
